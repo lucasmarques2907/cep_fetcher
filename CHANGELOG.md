@@ -19,3 +19,7 @@
 ### Documentação
 - Adicionados comentários `dartdoc` à API pública para conformidade com o pub.dev.
 - Incluído exemplo funcional em `example/example.dart` demonstrando o uso básico da biblioteca.
+
+## [0.0.5] - 2025-06-25
+### Documentação
+- Adicionando comentários `dartdoc` aos arquivos do modelo de cep, exemplo e teste.
