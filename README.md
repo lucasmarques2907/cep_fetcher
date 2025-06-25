@@ -17,11 +17,11 @@ No seu `pubspec.yaml`:
 
 ```yaml
 dependencies:
-    cep_fetcher: ^1.0.0
+  cep_fetcher: ^1.0.0
 ```
 
 Depois execute:
-```flutter pub get```
+`flutter pub get`
 
 ## Como Usar
 
@@ -108,4 +108,4 @@ Este projeto está licenciado sob a [Licença MIT](https://github.com/lucasmarqu
 
 ## Contato
 
-Created by **Lucas Vinícius Marques**, connect via [LinkedIn](https://www.linkedin.com/in/lucas-vinicius-marques-0a340131b/)
+Criado por **Lucas Vinícius Marques**, entre em contato via [LinkedIn](https://www.linkedin.com/in/lucas-vinicius-marques-0a340131b/)
