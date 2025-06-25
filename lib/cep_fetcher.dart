@@ -1,3 +1,6 @@
+/// A Dart package to fetch Brazilian address data from multiple CEP APIs.
+library;
+
 import 'dart:convert';
 import 'package:cep_fetcher/models/cep_model.dart';
 import 'package:flutter/foundation.dart';
@@ -10,6 +13,9 @@ import 'package:http/http.dart' as http;
 /// - AwesomeAPI
 /// - OpenCEP
 class CepFetcher {
+  /// Creates a new instance of [CepFetcher].
+  CepFetcher();
+
   /// Fetches address data for a given CEP.
   ///
   /// The [cep] must contain 8 numeric digits.
