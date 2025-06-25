@@ -1,0 +1,41 @@
+name: Flutter PR Validator
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  analyze_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run static analysis
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test
+
+  notify_on_failure:
+    if: failure()
+    needs: analyze_and_test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Comment on PR if validation fails
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            ⚠️ This pull request failed either static analysis or tests.
+            Please fix the issues reported by GitHub Actions before merging.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
