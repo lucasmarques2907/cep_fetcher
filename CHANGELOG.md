@@ -6,3 +6,7 @@
 - Validação de CEP (apenas 8 dígitos numéricos).
 - Modelo `Cep` com serialização via `toJson`.
 - Tratamento de erro silencioso com `debugPrint`.
+
+## [0.0.2] - 2025-06-25
+### Corrigido
+- Adicionado o campo `license` no `pubspec.yaml` e o arquivo `LICENSE` para compatibilidade com o pub.dev.
