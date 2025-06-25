@@ -1,9 +1,8 @@
 name: cep_fetcher
 description: "Pacote Dart simples para obter dados de endereço no Brasil a partir de um CEP usando múltiplas APIs."
-version: 0.0.2
+version: 0.0.3
 repository: https://github.com/lucasmarques2907/cep_fetcher
 license: MIT
-# homepage: 
 
 environment:
   sdk: ^3.7.2
