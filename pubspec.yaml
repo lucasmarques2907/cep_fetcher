@@ -1,5 +1,5 @@
 name: cep_fetcher
-description: "A new Flutter package project."
+description: "Pacote Dart simples para obter dados de endereço no Brasil a partir de um CEP usando múltiplas APIs."
 version: 0.0.1
 repository: https://github.com/lucasmarques2907/cep_fetcher
 # homepage: 
