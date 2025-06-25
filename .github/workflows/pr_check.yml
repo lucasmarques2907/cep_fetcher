@@ -15,7 +15,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
+          flutter-version: '3.32.0'
 
       - name: Install dependencies
         run: flutter pub get
@@ -30,6 +30,8 @@ jobs:
     if: failure()
     needs: analyze_and_test
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
 
     steps:
       - name: Comment on PR if validation fails
