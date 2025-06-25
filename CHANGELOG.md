@@ -23,3 +23,7 @@
 ## [0.0.5] - 2025-06-25
 ### Documentação
 - Adicionando comentários `dartdoc` aos arquivos do modelo de cep, exemplo e teste.
+
+## [0.0.6] - 2025-06-25
+### Corrigido
+- Passando arquivo de exemplos da pasta lib para a raiz do projeto.
