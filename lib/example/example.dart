@@ -1,3 +1,7 @@
+// Example usage of the `cep_fetcher` package.
+// This example shows how to fetch address data from a Brazilian CEP using the
+// CepFetcher class.
+
 import 'package:cep_fetcher/cep_fetcher.dart';
 import 'package:flutter/foundation.dart';
 
