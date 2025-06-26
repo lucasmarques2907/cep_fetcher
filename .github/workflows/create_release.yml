@@ -1,0 +1,39 @@
+name: Release from Changelog
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get version from pubspec.yaml
+        id: version
+        run: |
+          version=$(grep '^version:' pubspec.yaml | sed 's/version: //')
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Extract changelog for current version
+        id: changelog
+        run: |
+          version="${{ steps.version.outputs.version }}"
+          changelog=$(awk "/^## $version/,/^## /" CHANGELOG.md | sed '$d')
+          echo "$changelog" > changelog_excerpt.md
+          echo "log<<EOF" >> $GITHUB_OUTPUT
+          cat changelog_excerpt.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          body: ${{ steps.changelog.outputs.log }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
