@@ -81,3 +81,9 @@
 ### Refatorado
 
 - Função `fetchCepData` retorna dados do CEP ou uma exception com descrição do erro.
+
+## 0.1.0
+
+### Adicionado
+
+- Aviso legal sobre o uso desta biblioteca e das APIs públicas utilizadas para consulta de dados.
