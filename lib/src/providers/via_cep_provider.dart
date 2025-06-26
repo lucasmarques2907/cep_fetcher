@@ -1,18 +1,13 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:cep_fetcher/src/network.dart';
 import 'package:cep_fetcher/models/cep_model.dart';
 
 /// Tries to fetch address data using the ViaCEP API.
 ///
 /// Returns a [Cep] object if successful, or `null` otherwise.
 Future<Cep?> tryViaCep(String cep, Duration timeout) async {
-  final res = await http
-      .get(Uri.https('viacep.com.br', '/ws/$cep/json/'))
-      .timeout(timeout);
-  if (res.statusCode != 200) return null;
-
-  final data = jsonDecode(res.body);
-  if (data['erro'] == true) return null;
+  final uri = Uri.https('viacep.com.br', '/ws/$cep/json/');
+  final data = await getJson(uri, timeout);
+  if (data == null || data['erro'] == true) return null;
 
   return Cep(
     cep: cep,

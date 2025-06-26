@@ -87,3 +87,16 @@
 ### Adicionado
 
 - Aviso legal sobre o uso desta biblioteca e das APIs públicas utilizadas para consulta de dados.
+
+## 0.1.1
+
+### Refatorado
+
+- Requisições HTTP centralizadas em uma nova função utilitária getJson, reduzindo duplicação de código entre provedores.
+- Adição de headers padrão (`Accept: application/json`, `User-Agent: cep_fetcher/VERSION`) para todas as chamadas às APIs.
+- Criação de constante libraryVersion para controle de versão dentro da lib.
+
+### Documentação
+
+- Documentação interna adicionada à função `getJson`, explicando seu uso, comportamento e integridade de retorno.
+- Comentários refinados em cada provedor (`◊tryViaCep`, `tryOpenCepApi`, `tryAwesomeApi`) para manter consistência e clareza.
