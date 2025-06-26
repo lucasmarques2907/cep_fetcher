@@ -46,6 +46,7 @@
 
 - Lançadas exceções personalizadas (`CepFetcherException`, `InvalidCepFormatException`, `TimeoutOutOfRangeException`, `CepNotFoundException`) para melhorar o controle de erros.
 - Novo tratamento explícito para CEP inválido `99999999`.
+- Cache interno em memória adicionado para evitar chamadas repetidas às APIs para o mesmo CEP.
 
 ### Alterado
 
@@ -67,3 +68,4 @@
   - CEP com formato inválido
   - CEP não encontrado
   - Consulta bem-sucedida
+  - Reutilização de CEPs já consultados via cache interno

@@ -4,10 +4,15 @@ library;
 
 import 'package:cep_fetcher/models/cep_model.dart';
 import 'package:cep_fetcher/exceptions/cep_exceptions.dart';
+import 'package:flutter/foundation.dart';
 
 import 'src/providers/via_cep_provider.dart';
 import 'src/providers/awesome_api_provider.dart';
 import 'src/providers/open_cep_api_provider.dart';
+
+/// Internal in-memory cache to store successfully resolved CEPs.
+/// Avoids redundant API calls during the same runtime session.
+final Map<String, Cep> _cepCache = {};
 
 /// Fetches address data for a given CEP.
 ///
@@ -24,6 +29,9 @@ import 'src/providers/open_cep_api_provider.dart';
 ///
 /// Returns a [Cep] object if a valid response is found from any provider,
 /// or `null` if all providers fail or the CEP is invalid.
+///
+/// Internally caches successful lookups to avoid redundant network requests
+/// for the same CEP during the application's runtime.
 ///
 /// It queries multiple APIs with automatic fallback between:
 /// - ViaCEP
@@ -46,6 +54,10 @@ Future<Cep?> fetchCepData(
     throw CepNotFoundException(cleanCep);
   }
 
+  if (_cepCache.containsKey(cleanCep)) {
+    return _cepCache[cleanCep]!;
+  }
+
   final List<Future<Cep?> Function()> providers = [
     () => tryViaCep(cleanCep, timeout),
     () => tryAwesomeApi(cleanCep, timeout),
@@ -55,7 +67,10 @@ Future<Cep?> fetchCepData(
   for (final fetch in providers) {
     try {
       final data = await fetch();
-      if (data != null) return data;
+      if (data != null) {
+        _cepCache[cleanCep] = data;
+        return data;
+      }
     } catch (_) {
       // Silent: ignores and try the next provider
     }
@@ -63,3 +78,10 @@ Future<Cep?> fetchCepData(
 
   throw CepNotFoundException(cep);
 }
+
+/// Internal cache accessor for testing purposes only.
+///
+/// Exposes the in-memory CEP cache so it can be inspected in unit tests.
+/// Do not use in production code.
+@visibleForTesting
+Map<String, Cep> get internalCache => _cepCache;

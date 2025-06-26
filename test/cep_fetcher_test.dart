@@ -7,6 +7,10 @@ import 'package:cep_fetcher/cep_fetcher.dart';
 import 'package:cep_fetcher/exceptions/cep_exceptions.dart';
 
 void main() {
+  setUp(() {
+    internalCache.clear();
+  });
+
   group('fetchCepData', () {
     test('Returns valid data for a known good CEP', () async {
       final result = await fetchCepData('01001000');
@@ -49,6 +53,21 @@ void main() {
         () => fetchCepData('99999999'),
         throwsA(isA<CepNotFoundException>()),
       );
+    });
+
+    test('Reuses cached result on repeated request', () async {
+      expect(internalCache.containsKey('01001000'), isFalse);
+
+      final result1 = await fetchCepData('01001000');
+      expect(result1, isNotNull);
+
+      expect(internalCache.containsKey('01001000'), isTrue);
+
+      final result2 = await fetchCepData('01001000');
+      expect(
+        identical(result1, result2),
+        isTrue,
+      ); // Should be same object instance
     });
   });
 }

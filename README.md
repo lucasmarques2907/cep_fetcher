@@ -6,7 +6,8 @@
   - [ViaCEP](https://viacep.com.br)
   - [AwesomeAPI](https://cep.awesomeapi.com.br)
   - [OpenCEP](https://opencep.com)
-- Tenta usar a próxima API automaticamente caso uma falhe
+- Tenta usar a próxima API automaticamente caso uma falhe.
+- Cache interno em memória para evitar requisições repetidas para o mesmo CEP durante a execução.
 - Tratamento de erros via exceções específicas, com mensagens claras para facilitar o diagnóstico.
 
 ## Como Usar
