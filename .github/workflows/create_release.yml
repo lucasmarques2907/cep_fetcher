@@ -6,8 +6,8 @@ on:
       - main
 
 permissions:
-  contents: write 
-  
+  contents: write
+
 jobs:
   create_release:
     runs-on: ubuntu-latest
@@ -23,20 +23,19 @@ jobs:
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Extract changelog for current version
-        id: changelog
         run: |
-          version="${{ steps.version.outputs.version }}"
-          changelog=$(awk "/^## $version/,/^## /" CHANGELOG.md | sed '$d')
-          echo "$changelog" > changelog_excerpt.md
-          echo "log<<EOF" >> $GITHUB_OUTPUT
-          cat changelog_excerpt.md >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          version="## ${{ steps.version.outputs.version }}"
+          awk -v version="$version" '
+            $0 == version {found=1; next}
+            /^## / && found {exit}
+            found {print}
+          ' CHANGELOG.md > changelog_excerpt.md
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: v${{ steps.version.outputs.version }}
-          body: ${{ steps.changelog.outputs.log }}
+          body_path: changelog_excerpt.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
