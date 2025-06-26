@@ -21,11 +21,26 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.32.0'
-          channel: 'stable'
+          flutter-version: "3.32.0"
+          channel: "stable"
 
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Check version consistency
+        run: |
+          pubspec_version=$(grep '^version:' pubspec.yaml | awk '{print $2}')
+          changelog_version=$(grep -E '^## [0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md | head -n 1 | awk '{print $2}')
+          dart_version=$(grep -oP "const String libraryVersion = '\K[0-9]+\.[0-9]+\.[0-9]+" lib/src/network.dart)
+
+          echo "pubspec.yaml version: $pubspec_version"
+          echo "CHANGELOG.md version: $changelog_version"
+          echo "network.dart version: $dart_version"
+
+          if [[ "$pubspec_version" != "$changelog_version" || "$pubspec_version" != "$dart_version" ]]; then
+            echo "::error ::❌ Versão inconsistente! Certifique-se de que pubspec.yaml, CHANGELOG.md e network.dart têm a mesma versão."
+            exit 1
+          fi
 
       - name: Run static analysis
         run: flutter analyze

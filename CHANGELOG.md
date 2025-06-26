@@ -1,44 +1,33 @@
-## 0.0.1
+## 0.1.1
+
+### Refatorado
+
+- Requisições HTTP centralizadas em uma nova função utilitária getJson, reduzindo duplicação de código entre provedores.
+- Adição de headers padrão (`Accept: application/json`, `User-Agent: cep_fetcher/VERSION`) para todas as chamadas às APIs.
+- Criação de constante libraryVersion para controle de versão dentro da lib.
+
+### Documentação
+
+- Documentação interna adicionada à função `getJson`, explicando seu uso, comportamento e integridade de retorno.
+- Comentários refinados em cada provedor (`◊tryViaCep`, `tryOpenCepApi`, `tryAwesomeApi`) para manter consistência e clareza.
+
+## 0.1.0
 
 ### Adicionado
 
-- Lançamento inicial da biblioteca `cep_fetcher`.
-- Suporte a múltiplas APIs de CEP (ViaCEP, AwesomeAPI, OpenCEP).
-- Fallback automático entre provedores em caso de falha.
-- Validação de CEP (apenas 8 dígitos numéricos).
-- Modelo `Cep` com serialização via `toJson`.
-- Tratamento de erro silencioso com `debugPrint`.
+- Aviso legal sobre o uso desta biblioteca e das APIs públicas utilizadas para consulta de dados.
 
-## 0.0.2
+## 0.0.9
 
-### Corrigido
+### Refatorado
 
-- Adicionado o campo `license` no `pubspec.yaml` e o arquivo `LICENSE` para compatibilidade com o pub.dev.
+- Função `fetchCepData` retorna dados do CEP ou uma exception com descrição do erro.
 
-## 0.0.3
+## 0.0.8
 
-### Corrigido
+### Refatorado
 
-- Sincronizando as versões da lib no `pubscep.yaml`
-
-## 0.0.4
-
-### Documentação
-
-- Adicionados comentários `dartdoc` à API pública para conformidade com o pub.dev.
-- Incluído exemplo funcional em `example/example.dart` demonstrando o uso básico da biblioteca.
-
-## 0.0.5
-
-### Documentação
-
-- Adicionando comentários `dartdoc` aos arquivos do modelo de cep, exemplo e teste.
-
-## 0.0.6
-
-### Corrigido
-
-- Passando arquivo de exemplos da pasta lib para a raiz do projeto.
+- Formatação de arquivos de acordo com o padrão do pub.dev.
 
 ## 0.0.7
 
@@ -70,20 +59,44 @@
   - Consulta bem-sucedida
   - Reutilização de CEPs já consultados via cache interno
 
-## 0.0.8
+## 0.0.6
 
-### Refatorado
+### Corrigido
 
-- Formatação de arquivos de acordo com o padrão do pub.dev.
+- Passando arquivo de exemplos da pasta lib para a raiz do projeto.
 
-## 0.0.9
+## 0.0.5
 
-### Refatorado
+### Documentação
 
-- Função `fetchCepData` retorna dados do CEP ou uma exception com descrição do erro.
+- Adicionando comentários `dartdoc` aos arquivos do modelo de cep, exemplo e teste.
 
-## 0.1.0
+## 0.0.4
+
+### Documentação
+
+- Adicionados comentários `dartdoc` à API pública para conformidade com o pub.dev.
+- Incluído exemplo funcional em `example/example.dart` demonstrando o uso básico da biblioteca.
+
+## 0.0.3
+
+### Corrigido
+
+- Sincronizando as versões da lib no `pubscep.yaml`
+
+## 0.0.2
+
+### Corrigido
+
+- Adicionado o campo `license` no `pubspec.yaml` e o arquivo `LICENSE` para compatibilidade com o pub.dev.
+
+## 0.0.1
 
 ### Adicionado
 
-- Aviso legal sobre o uso desta biblioteca e das APIs públicas utilizadas para consulta de dados.
+- Lançamento inicial da biblioteca `cep_fetcher`.
+- Suporte a múltiplas APIs de CEP (ViaCEP, AwesomeAPI, OpenCEP).
+- Fallback automático entre provedores em caso de falha.
+- Validação de CEP (apenas 8 dígitos numéricos).
+- Modelo `Cep` com serialização via `toJson`.
+- Tratamento de erro silencioso com `debugPrint`.
