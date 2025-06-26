@@ -69,3 +69,8 @@
   - CEP não encontrado
   - Consulta bem-sucedida
   - Reutilização de CEPs já consultados via cache interno
+
+## 0.0.8
+### Refatorado
+
+- Formatação de arquivos de acordo com o padrão do pub.dev.
