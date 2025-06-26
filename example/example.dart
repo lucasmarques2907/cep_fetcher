@@ -13,7 +13,7 @@ void main() async {
     final result = await fetchCepData(inputCep, timeout: Duration(seconds: 3));
 
     print('✔️ CEP encontrado:');
-    print('   ${result!.address}, ${result.city} - ${result.state}');
+    print('   ${result.address}, ${result.city} - ${result.state}');
   } catch (e) {
     print('❌ Erro ao buscar CEP: $e');
   }
