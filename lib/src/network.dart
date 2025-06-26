@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 /// Current version of the cep_fetcher library.
-const String libraryVersion = '0.1.1';
+const String libraryVersion = '0.1.2';
 
 /// Default headers used in all HTTP requests performed by this package.
 ///
