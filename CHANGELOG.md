@@ -1,3 +1,9 @@
+## 0.1.2
+
+### Corrigido
+
+- Falha no upload do pacote para o pub.dev
+
 ## 0.1.1
 
 ### Refatorado
