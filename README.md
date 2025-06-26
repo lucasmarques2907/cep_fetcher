@@ -97,7 +97,13 @@ void main() async {
 
 ## Histórico de versões
 
-Consulte o [CHANGELOG.md](CHANGELOG.md) para detalhes sobre as versões anteriores.
+Consulte o [CHANGELOG](https://pub.dev/packages/cep_fetcher/changelog) para detalhes sobre as versões anteriores.
+
+## Aviso Legal
+
+Este pacote utiliza APIs públicas de terceiros ([ViaCEP](https://viacep.com.br), [AwesomeAPI](https://cep.awesomeapi.com.br) e [OpenCEP](https://opencep.com)) para obtenção de dados de endereço a partir de um CEP. O desenvolvedor desta biblioteca não tem afiliação com os serviços mencionados, tampouco garante a disponibilidade, exatidão ou continuidade de funcionamento dessas APIs.
+
+O uso deste pacote é de responsabilidade do desenvolvedor que o integra em sua aplicação. Certifique-se de revisar os Termos de Uso de cada provedor de API antes de utilizar este pacote em ambientes de produção.
 
 ## Licença
 
