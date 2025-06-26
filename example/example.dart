@@ -1,19 +1,20 @@
 // Example usage of the `cep_fetcher` package.
 // This example shows how to fetch address data from a Brazilian CEP using the
-// CepFetcher class.
+// fetchCepData function.
+
+// ignore_for_file: avoid_print
 
 import 'package:cep_fetcher/cep_fetcher.dart';
-import 'package:flutter/foundation.dart';
 
 void main() async {
-  final fetcher = CepFetcher();
-  final result = await fetcher.fetchCepData('01001000');
+  const inputCep = '01001000';
 
-  if (result == null) {
-    debugPrint('CEP não encontrado');
-  } else {
-    debugPrint(
-      'Logradouro: ${result.address}, ${result.city} - ${result.state}',
-    );
+  try {
+    final result = await fetchCepData(inputCep, timeout: Duration(seconds: 3));
+
+    print('✔️ CEP encontrado:');
+    print('   ${result!.address}, ${result.city} - ${result.state}');
+  } catch (e) {
+    print('❌ Erro ao buscar CEP: $e');
   }
 }

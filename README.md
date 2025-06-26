@@ -6,41 +6,27 @@
   - [ViaCEP](https://viacep.com.br)
   - [AwesomeAPI](https://cep.awesomeapi.com.br)
   - [OpenCEP](https://opencep.com)
-- Tenta usar a próxima API automaticamente caso uma falhe
-- Tratamento de erros silencioso com registro via `debugPrint` (somente em modo debug)
-
-## Primeiros Passos
-
-### Adicionar dependência
-
-No seu `pubspec.yaml`:
-
-```yaml
-dependencies:
-  cep_fetcher: ^1.0.0
-```
-
-Depois execute:
-`flutter pub get`
+- Tenta usar a próxima API automaticamente caso uma falhe.
+- Cache interno em memória para evitar requisições repetidas para o mesmo CEP durante a execução.
+- Tratamento de erros via exceções específicas, com mensagens claras para facilitar o diagnóstico.
 
 ## Como Usar
 
-Importe e chame o método `fetchCepData`:
+Importe o pacote e chame a função `fetchCepData`:
 
 ```dart
 import 'package:cep_fetcher/cep_fetcher.dart';
-import 'package:cep_fetcher/models/cep_model.dart';
-
-final fetcher = CepFetcher();
 
 void getAddress() async {
-    final Cep? data = await fetcher.fetchCepData('01001000');
+    const inputCep = '01001000';
 
-    if (data != null){
-        print('${info.address}, ${info.district} - ${info.city}/${info.state}');
-    }else{
-        print('CEP inválido ou não encontrado');
-    }
+  try {
+    final result = await fetchCepData(inputCep, timeout: Duration(seconds: 3));
+    print('✔️ CEP encontrado:');
+    print('   ${result!.address}, ${result.city} - ${result.state}');
+  } catch (e) {
+    print('❌ Erro ao buscar CEP: $e');
+  }
 }
 ```
 
@@ -82,25 +68,36 @@ Ordem de fallback (tentativas):
 
 ## Tratamento de Erros
 
-- Retorna `null` se:
-  - O CEP fornecido for inválido (não conter 8 dígitos numéricos)
-  - Todas as tentativas de API falharem
-- Erros de rede e requisições são capturados e exibidos via `debugPrint` (apenas em modo de debug)
+A função `fetchCepData` pode lançar exceções específicas para facilitar o tratamento de erros:
+
+- `InvalidCepFormatException` – O CEP fornecido não contém 8 dígitos válidos após remoção de formatação.
+- `TimeoutOutOfRangeException` – O valor fornecido para `timeout` está fora do intervalo permitido (1 a 10 segundos).
+- `CepNotFoundException` – Nenhuma das APIs públicas conseguiu retornar dados para o CEP informado.
+
+Todas essas exceções herdam de `CepFetcherException`, permitindo capturas genéricas ou específicas conforme desejado.
 
 ## Exemplo Completo
 
 ```dart
-void main() async {
-    final fetcher = CepFetcher();
-    final result = await fetcher.fetchCepData('99999999');
+import 'package:cep_fetcher/cep_fetcher.dart';
 
-    if(result == null){
-        print('CEP não encontrado');
-    }else{
-        print('Logradouro: ${result.address}, ${result.city} - ${result.state}');
-    }
+void main() async {
+  const inputCep = '01001000';
+
+  try {
+    final result = await fetchCepData(inputCep, timeout: Duration(seconds: 3));
+
+    print('✔️ CEP encontrado:');
+    print('   ${result!.address}, ${result.city} - ${result.state}');
+  } catch (e) {
+    print('❌ Erro ao buscar CEP: $e');
+  }
 }
 ```
+
+## Histórico de versões
+
+Consulte o [CHANGELOG.md](CHANGELOG.md) para detalhes sobre as versões anteriores.
 
 ## Licença
 

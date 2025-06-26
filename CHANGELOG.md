@@ -1,5 +1,7 @@
-## [0.0.1] - 2025-06-25
+## 0.0.1
+
 ### Adicionado
+
 - Lançamento inicial da biblioteca `cep_fetcher`.
 - Suporte a múltiplas APIs de CEP (ViaCEP, AwesomeAPI, OpenCEP).
 - Fallback automático entre provedores em caso de falha.
@@ -7,23 +9,63 @@
 - Modelo `Cep` com serialização via `toJson`.
 - Tratamento de erro silencioso com `debugPrint`.
 
-## [0.0.2] - 2025-06-25
+## 0.0.2
+
 ### Corrigido
+
 - Adicionado o campo `license` no `pubspec.yaml` e o arquivo `LICENSE` para compatibilidade com o pub.dev.
 
-## [0.0.3] - 2025-06-25
+## 0.0.3
+
 ### Corrigido
+
 - Sincronizando as versões da lib no `pubscep.yaml`
 
-## [0.0.4] - 2025-06-25
+## 0.0.4
+
 ### Documentação
+
 - Adicionados comentários `dartdoc` à API pública para conformidade com o pub.dev.
 - Incluído exemplo funcional em `example/example.dart` demonstrando o uso básico da biblioteca.
 
-## [0.0.5] - 2025-06-25
+## 0.0.5
+
 ### Documentação
+
 - Adicionando comentários `dartdoc` aos arquivos do modelo de cep, exemplo e teste.
 
-## [0.0.6] - 2025-06-25
+## 0.0.6
+
 ### Corrigido
+
 - Passando arquivo de exemplos da pasta lib para a raiz do projeto.
+
+## 0.0.7
+
+### Adicionado
+
+- Lançadas exceções personalizadas (`CepFetcherException`, `InvalidCepFormatException`, `TimeoutOutOfRangeException`, `CepNotFoundException`) para melhorar o controle de erros.
+- Novo tratamento explícito para CEP inválido `99999999`.
+- Cache interno em memória adicionado para evitar chamadas repetidas às APIs para o mesmo CEP.
+
+### Alterado
+
+- A função principal `fetchCepData` agora é global (não requer mais instanciar uma classe).
+- Validação de `timeout` agora lança `TimeoutOutOfRangeException` ao invés de `ArgumentError`.
+- Mensagens de erro e docstrings refinadas para maior clareza e precisão.
+- Atualização do `README.md` com exemplos reais e instruções completas de uso e erros.
+
+### Refatorado
+
+- Código reorganizado: moved funções de provedores para `lib/src/providers` e ocultadas da API pública.
+- `debugPrint` foi removido, deixando o controle total de erros para o usuário via exceptions.
+- Funções de acesso direto às APIs (`tryViaCep`, etc.) não são mais acessíveis externamente.
+
+### Testes
+
+- Novos testes unitários cobrindo:
+  - Tempo de timeout inválido
+  - CEP com formato inválido
+  - CEP não encontrado
+  - Consulta bem-sucedida
+  - Reutilização de CEPs já consultados via cache interno
