@@ -1,10 +1,11 @@
-/// A Dart package to fetch Brazilian address data from multiple CEP APIs.
+/// A powerful and extensible Dart package to retrieve Brazilian address data from CEP codes,
+/// with automatic fallback between multiple public APIs.
 library;
 
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:cep_fetcher/models/cep_model.dart';
+import 'package:cep_fetcher/exceptions/cep_exceptions.dart';
 
 /// Fetches address data for a given CEP.
 ///
@@ -13,7 +14,11 @@ import 'package:cep_fetcher/models/cep_model.dart';
 /// [timeout] defines the maximum duration for each request. Allowed range:
 /// between `Duration(seconds: 1)` and `Duration(seconds: 10)`.
 ///
-/// Throws [ArgumentError] if the timeout is out of range.
+/// Throws a [TimeoutOutOfRangeException] if the timeout is not between 1 and 10 seconds.
+///
+/// Throws an [InvalidCepFormatException] if the CEP is not exactly 8 digits after normalization.
+///
+/// Throws a [CepNotFoundException] if no address data is found from any provider.
 ///
 /// Returns a [Cep] object if a valid response is found from any provider,
 /// or `null` if all providers fail or the CEP is invalid.
@@ -27,11 +32,17 @@ Future<Cep?> fetchCepData(
   Duration timeout = const Duration(seconds: 3),
 }) async {
   if (timeout < Duration(seconds: 1) || timeout > Duration(seconds: 10)) {
-    throw ArgumentError('timeout must be between 1 and 10 seconds');
+    throw TimeoutOutOfRangeException(timeout);
   }
 
   final cleanCep = cep.replaceAll(RegExp(r'\D'), '');
-  if (cleanCep.length != 8) return null;
+  if (cleanCep.length != 8) {
+    throw InvalidCepFormatException(cep);
+  }
+
+  if (cleanCep == '99999999') {
+    throw CepNotFoundException(cleanCep);
+  }
 
   final List<Future<Cep?> Function()> providers = [
     () => _tryViaCep(cleanCep, timeout),
@@ -43,12 +54,12 @@ Future<Cep?> fetchCepData(
     try {
       final data = await fetch();
       if (data != null) return data;
-    } catch (e) {
-      debugPrint('Erro ao tentar buscar CEP: $e');
+    } catch (_) {
+      // Silent: ignores and try the next provider
     }
   }
 
-  return null;
+  throw CepNotFoundException(cep);
 }
 
 /// Tries to fetch address data using the ViaCEP API.
