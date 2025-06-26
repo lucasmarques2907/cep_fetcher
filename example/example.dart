@@ -15,6 +15,6 @@ void main() async {
     print('✔️ CEP encontrado:');
     print('   ${result!.address}, ${result.city} - ${result.state}');
   } catch (e) {
-    print('❌ Erro: $e');
+    print('❌ Erro ao buscar CEP: $e');
   }
 }
