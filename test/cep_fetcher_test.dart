@@ -8,8 +8,10 @@ import 'package:cep_fetcher/cep_fetcher.dart';
 
 void main() {
   test('Checks if the CEP is valid and returns address data', () async {
-
-    final result = await fetchCepData('01001000');
+    final result = await fetchCepData(
+      '01001000',
+      timeout: Duration(milliseconds: 3),
+    );
 
     expect(result, isNotNull);
     expect(result!.cep, '01001000');

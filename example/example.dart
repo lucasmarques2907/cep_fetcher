@@ -6,7 +6,7 @@ import 'package:cep_fetcher/cep_fetcher.dart';
 import 'package:flutter/foundation.dart';
 
 void main() async {
-  final result = await fetchCepData('01001000');
+  final result = await fetchCepData('01001000', timeout: Duration(seconds: 4));
 
   if (result == null) {
     debugPrint('CEP não encontrado');
