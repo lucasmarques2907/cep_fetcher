@@ -2,10 +2,12 @@
 /// with automatic fallback between multiple public APIs.
 library;
 
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:cep_fetcher/models/cep_model.dart';
 import 'package:cep_fetcher/exceptions/cep_exceptions.dart';
+
+import 'src/providers/via_cep_provider.dart';
+import 'src/providers/awesome_api_provider.dart';
+import 'src/providers/open_cep_api_provider.dart';
 
 /// Fetches address data for a given CEP.
 ///
@@ -45,9 +47,9 @@ Future<Cep?> fetchCepData(
   }
 
   final List<Future<Cep?> Function()> providers = [
-    () => _tryViaCep(cleanCep, timeout),
-    () => _tryAwesomeApi(cleanCep, timeout),
-    () => _tryOpenCepApi(cleanCep, timeout),
+    () => tryViaCep(cleanCep, timeout),
+    () => tryAwesomeApi(cleanCep, timeout),
+    () => tryOpenCepApi(cleanCep, timeout),
   ];
 
   for (final fetch in providers) {
@@ -60,67 +62,4 @@ Future<Cep?> fetchCepData(
   }
 
   throw CepNotFoundException(cep);
-}
-
-/// Tries to fetch address data using the ViaCEP API.
-///
-/// Returns a [Cep] object if successful, or `null` otherwise.
-Future<Cep?> _tryViaCep(String cep, Duration timeout) async {
-  final res = await http
-      .get(Uri.https('viacep.com.br', '/ws/$cep/json/'))
-      .timeout(timeout);
-  if (res.statusCode != 200) return null;
-
-  final data = jsonDecode(res.body);
-  if (data['erro'] == true) return null;
-
-  return Cep(
-    cep: cep,
-    address: data['logradouro'],
-    district: data['bairro'],
-    city: data['localidade'],
-    state: data['uf'],
-  );
-}
-
-/// Tries to fetch address data using the AwesomeAPI.
-///
-/// Returns a [Cep] object if successful, or `null` otherwise.
-Future<Cep?> _tryAwesomeApi(String cep, Duration timeout) async {
-  final res = await http
-      .get(Uri.https('cep.awesomeapi.com.br', '/json/$cep'))
-      .timeout(timeout);
-  if (res.statusCode != 200) return null;
-
-  final data = jsonDecode(res.body);
-  if (data['status'] == 404 || data.containsKey('erro')) return null;
-
-  return Cep(
-    cep: cep,
-    address: data['address'],
-    district: data['district'],
-    city: data['city'],
-    state: data['state'],
-  );
-}
-
-/// Tries to fetch address data using the OpenCEP API.
-///
-/// Returns a [Cep] object if successful, or `null` otherwise.
-Future<Cep?> _tryOpenCepApi(String cep, Duration timeout) async {
-  final res = await http
-      .get(Uri.https('opencep.com', '/v1/$cep'))
-      .timeout(timeout);
-  if (res.statusCode != 200) return null;
-
-  final data = jsonDecode(res.body);
-  if (data['status'] == 404 || data.containsKey('erro')) return null;
-
-  return Cep(
-    cep: cep,
-    address: data['logradouro'],
-    district: data['bairro'],
-    city: data['localidade'],
-    state: data['uf'],
-  );
 }

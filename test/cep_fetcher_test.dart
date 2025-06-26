@@ -24,19 +24,25 @@ void main() {
       );
     });
 
-    test('Throws TimeoutOutOfRangeException for timeout below 1 second', () async {
-      expect(
-        () => fetchCepData('01001000', timeout: Duration(milliseconds: 500)),
-        throwsA(isA<TimeoutOutOfRangeException>()),
-      );
-    });
+    test(
+      'Throws TimeoutOutOfRangeException for timeout below 1 second',
+      () async {
+        expect(
+          () => fetchCepData('01001000', timeout: Duration(milliseconds: 500)),
+          throwsA(isA<TimeoutOutOfRangeException>()),
+        );
+      },
+    );
 
-    test('Throws TimeoutOutOfRangeException for timeout above 10 seconds', () async {
-      expect(
-        () => fetchCepData('01001000', timeout: Duration(seconds: 11)),
-        throwsA(isA<TimeoutOutOfRangeException>()),
-      );
-    });
+    test(
+      'Throws TimeoutOutOfRangeException for timeout above 10 seconds',
+      () async {
+        expect(
+          () => fetchCepData('01001000', timeout: Duration(seconds: 11)),
+          throwsA(isA<TimeoutOutOfRangeException>()),
+        );
+      },
+    );
 
     test('Throws CepNotFoundException for non-existent CEP', () async {
       expect(
