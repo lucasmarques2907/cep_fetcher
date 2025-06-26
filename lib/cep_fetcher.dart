@@ -37,7 +37,7 @@ final Map<String, Cep> _cepCache = {};
 /// - ViaCEP
 /// - AwesomeAPI
 /// - OpenCEP
-Future<Cep?> fetchCepData(
+Future<Cep> fetchCepData(
   String cep, {
   Duration timeout = const Duration(seconds: 3),
 }) async {

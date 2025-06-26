@@ -16,7 +16,7 @@ void main() {
       final result = await fetchCepData('01001000');
 
       expect(result, isNotNull);
-      expect(result!.cep, '01001000');
+      expect(result.cep, '01001000');
       expect(result.address, isNotEmpty);
       expect(result.state, isNotEmpty);
     });

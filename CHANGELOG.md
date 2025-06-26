@@ -71,6 +71,13 @@
   - Reutilização de CEPs já consultados via cache interno
 
 ## 0.0.8
+
 ### Refatorado
 
 - Formatação de arquivos de acordo com o padrão do pub.dev.
+
+## 0.0.9
+
+### Refatorado
+
+- Função `fetchCepData` retorna dados do CEP ou uma exception com descrição do erro.
