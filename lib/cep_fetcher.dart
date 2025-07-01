@@ -21,6 +21,9 @@ final Map<String, Cep> _cepCache = {};
 /// [timeout] defines the maximum duration for each request. Allowed range:
 /// between `Duration(seconds: 1)` and `Duration(seconds: 10)`.
 ///
+/// If [bypassCache] is true, any cached result for that CEP will be ignored
+/// and a fresh network lookup will occur.
+///
 /// Throws a [TimeoutOutOfRangeException] if the timeout is not between 1 and 10 seconds.
 ///
 /// Throws an [InvalidCepFormatException] if the CEP is not exactly 8 digits after normalization.
@@ -40,6 +43,7 @@ final Map<String, Cep> _cepCache = {};
 Future<Cep> fetchCepData(
   String cep, {
   Duration timeout = const Duration(seconds: 3),
+  bool bypassCache = false,
 }) async {
   if (timeout < Duration(seconds: 1) || timeout > Duration(seconds: 10)) {
     throw TimeoutOutOfRangeException(timeout);
@@ -54,7 +58,8 @@ Future<Cep> fetchCepData(
     throw CepNotFoundException(cleanCep);
   }
 
-  if (_cepCache.containsKey(cleanCep)) {
+  // If not bypassing, return cached result when available
+  if (!bypassCache && _cepCache.containsKey(cleanCep)) {
     return _cepCache[cleanCep]!;
   }
 
@@ -85,3 +90,8 @@ Future<Cep> fetchCepData(
 /// Do not use in production code.
 @visibleForTesting
 Map<String, Cep> get internalCache => _cepCache;
+
+/// Clears the in-memory CEP cache. Useful for tests or if you want to
+/// force a fresh lookup in long-running apps.
+@visibleForTesting
+void clearCepCache() => _cepCache.clear();
