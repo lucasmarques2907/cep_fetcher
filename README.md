@@ -30,6 +30,15 @@ void getAddress() async {
 }
 ```
 
+
+### Parâmetros Disponíveis
+
+A função `fetchCepData` aceita os seguintes parâmetros opcionais:
+- `timeout`: `Duration` - Define o tempo máximo para cada requisição de API. o intervalo permitido é de 1 a 10 segundos. O valor padrão é `Duration(seconds: 3)`.
+- `bypassCache`: `bool` - Se `true`, ignora o cache interno e força uma nova consulta às APIs mesmo que o CEP já tenha sido resolvido anteriormente. Útil em cenários onde os dados podem ter sido atualizados. O valor padrão é `false`;
+
+Se necessário, o cache pode ser limpo manualmente utilizando a função `clearCepCache()`
+
 ## Modelo de CEP
 
 ```dart
