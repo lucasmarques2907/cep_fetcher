@@ -84,14 +84,14 @@ Future<Cep> fetchCepData(
   throw CepNotFoundException(cep);
 }
 
+/// Clears all cached CEP results from memory.
+///
+/// Useful when you want to force fresh lookups or reset state during app usage.
+void clearCepCache() => _cepCache.clear();
+
 /// Internal cache accessor for testing purposes only.
 ///
 /// Exposes the in-memory CEP cache so it can be inspected in unit tests.
 /// Do not use in production code.
 @visibleForTesting
 Map<String, Cep> get internalCache => _cepCache;
-
-/// Clears the in-memory CEP cache. Useful for tests or if you want to
-/// force a fresh lookup in long-running apps.
-@visibleForTesting
-void clearCepCache() => _cepCache.clear();
