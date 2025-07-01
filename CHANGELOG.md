@@ -1,3 +1,15 @@
+## 1.0.0
+
+### Adicionado
+
+- Suporte ao parâmetro `bypassCache` na função `fetchCepData`, permitindo ignorar o cache e forçar uma nova requisição.
+- Nova função pública `clearCepCache` para permitir a limpeza manual do cache de CEPs durante o runtime.
+
+### Documentação
+
+- Explicações detalhadas sobre os parâmetros `timeout` e `bypassCache`adicionadas ao README.
+- Nova seção no README sobre o cache interno e como limpá-lo com `clearCacheCep`
+
 ## 0.1.2
 
 ### Corrigido
