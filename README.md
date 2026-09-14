@@ -1,5 +1,3 @@
-# cep_fetcher
-
 ## Funcionalidades
 
 - Obtém dados de endereço (logradouro, bairro, cidade, estado) a partir de um CEP, utilizando múltiplas APIs:
